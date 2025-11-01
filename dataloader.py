@@ -40,6 +40,28 @@ y_val_flat   = y_val
 y_test_flat  = y_test
 
 
+# Filter for only classes 0 and 1
+mask_train = (y_train_flat == 0) | (y_train_flat == 1)
+mask_val = (y_val_flat == 0) | (y_val_flat == 1)
+mask_test = (y_test_flat == 0) | (y_test_flat == 1)
+
+x_train_filtered = x_train_flat[mask_train]
+y_train_filtered = y_train_flat[mask_train]
+
+x_val_filtered = x_val_flat[mask_val]
+y_val_filtered = y_val_flat[mask_val]
+
+x_test_filtered = x_test_flat[mask_test]
+y_test_filtered = y_test_flat[mask_test]
+
+print("After filtering for classes 0 and 1:")
+print (f"Shape of x_train_filtered: {x_train_filtered.shape}, y_train_filtered: {y_train_filtered.shape}")
+print (f"Shape of x_val_filtered: {x_val_filtered.shape}, y_val_filtered: {y_val_filtered.shape}")
+print (f"Shape of x_test_filtered: {x_test_filtered.shape}, y_test_filtered: {y_test_filtered.shape}")
+
+print("---------")
+
+
 
 print (f"Shape of x_train: {x_train_flat.shape}, y_train: {y_train_flat.shape}")
 print (f"Shape of x_val: {x_val_flat.shape}, y_val: {y_val_flat.shape}")
@@ -55,6 +77,16 @@ batch_size = 64
 train_loader_linear = DataLoader(train_dataset_linear, batch_size=batch_size, shuffle=True)
 val_loader_linear   = DataLoader(val_dataset_linear, batch_size=batch_size, shuffle=False)
 test_loader_linear  = DataLoader(test_dataset_linear, batch_size=batch_size, shuffle=False)
+
+
+train_dataset_linear_filtered = TensorDataset(x_train_filtered, y_train_filtered)
+val_dataset_linear_filtered   = TensorDataset(x_val_filtered, y_val_filtered)
+test_dataset_linear_filtered  = TensorDataset(x_test_filtered, y_test_filtered)
+
+
+train_loader_linear_filtered = DataLoader(train_dataset_linear_filtered, batch_size=batch_size, shuffle=True)
+val_loader_linear_filtered   = DataLoader(val_dataset_linear_filtered, batch_size=batch_size, shuffle=False)
+test_loader_linear_filtered  = DataLoader(test_dataset_linear_filtered, batch_size=batch_size, shuffle=False)
 
 
 train_dataset_nn = TensorDataset(x_train, y_train)
